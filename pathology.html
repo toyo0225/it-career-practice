@@ -1,18 +1,23 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>病理学｜選択30問</title>
 <style>
 :root{font-family:system-ui,"Yu Gothic UI",sans-serif;color:#193132;background:#eef4f2;--main:#135f59;--line:#cddbd7}*{box-sizing:border-box}body{margin:0}main{max-width:870px;margin:auto;padding:24px 18px 48px}header{margin-bottom:18px}.kicker{font-size:.83rem;letter-spacing:.08em;font-weight:700;color:var(--main)}h1{margin:.15em 0;font-size:clamp(1.75rem,5vw,2.5rem)}h2{line-height:1.55;font-size:clamp(1.15rem,3vw,1.45rem);margin:16px 0}p{line-height:1.65}.muted{color:#435b5a}.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:clamp(15px,4vw,25px);box-shadow:0 8px 30px #143b2910}label{font-size:1rem}select,button{font:inherit}select{padding:9px;border-radius:8px;border:1px solid var(--line);max-width:100%}.toolbar,.nav,.meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.meta{justify-content:space-between}.nav{justify-content:space-between;margin-top:17px}button{cursor:pointer;background:#fff;border:1px solid var(--line);color:inherit;border-radius:10px;padding:10px 15px;font-weight:650}button:disabled{opacity:.45;cursor:default}button:focus-visible,select:focus-visible{outline:3px solid #308e82;outline-offset:2px}.primary{background:var(--main);color:white;border-color:var(--main)}.choice{display:flex;gap:12px;align-items:center;width:100%;text-align:left;margin-top:8px;min-height:52px}.choice:not(:disabled):hover{border-color:var(--main);background:#f2faf7}.choice[aria-pressed=true]{border:2px solid var(--main);padding:9px 14px;background:#e4f5ef}.letter{display:inline-grid;place-items:center;flex:none;width:27px;height:27px;background:#e6efec;border-radius:7px;font-size:.86rem}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(39px,1fr));gap:6px;margin-top:22px}.grid button{padding:7px 0}.grid .done{background:#e0f3ea}.grid [aria-current=true]{border:2px solid var(--main);padding:6px 0}.bar{width:100%;height:8px;accent-color:var(--main);margin-top:12px}.pill{background:#e4f1ed;border-radius:999px;padding:4px 10px;font-size:.85rem}.bad{border-left:4px solid #b74a31;background:#fff6ef;padding:8px 12px;margin:9px 0;border-radius:6px}.bad p{margin:.2em 0}footer{margin-top:12px}.score{font-size:2rem;color:var(--main);font-weight:750} [hidden]{display:none!important}
+
+.choice.correct,.choice.correct:disabled{background:#dcf5e8;border-color:#25734e;opacity:1}
+.choice.wrong,.choice.wrong:disabled{background:#fff0eb;border-color:#a6402d;opacity:1}
+.feedback:not(:empty){margin-top:14px;padding:10px 12px;border-radius:9px;background:#e6f4ed;line-height:1.6}
+.feedback.error:not(:empty){background:#fff0eb;color:#842e20}
 </style></head><body><main>
 <header><div class="kicker">病理学・試験対策</div><h1>選択問題トレーニング</h1><div class="muted">循環障害・代謝障害・感染症｜小テストの選択肢と順序をそのまま収録</div></header>
-<section class="panel" id="setup"><h2>出題範囲を選ぶ</h2><div class="toolbar"><label for="scope">範囲</label><select id="scope"><option value="all">本番範囲すべて（30問）</option><option value="0">10/16 循環障害（10問）</option><option value="1">10/23 代謝障害（10問）</option><option value="2">10/30 感染症（10問）</option></select><label for="batch">出題数</label><select id="batch"><option value="5">5問ずつ</option><option value="all">まとめて</option></select><label for="set" id="setLabel">セット</label><select id="set"></select><label><input type="checkbox" id="random"> セット内の問題順だけシャッフル</label><button class="primary" id="start">スタート</button></div><p class="muted">選択肢の a〜d は固定。5問ずつ採点して、次のセットへ。間違えた問題だけでもやり直せます。</p></section>
-<section class="panel" id="play" hidden><div class="meta"><span class="pill" id="source"></span><span id="setBadge" class="muted"></span><span id="count" class="muted"></span></div><progress class="bar" id="bar" value="0"></progress><h2 id="prompt" tabindex="-1"></h2><div id="options" role="group" aria-labelledby="prompt"></div><div class="nav"><button id="prev">← 前の問題</button><button class="primary" id="next">次の問題 →</button></div><div class="grid" id="grid" aria-label="問題番号"></div><footer class="nav"><button id="home">範囲選択へ戻る</button><button id="grade">採点する</button></footer></section>
-<section class="panel" id="result" hidden><h2 id="resultTitle">結果</h2><div id="score" class="score"></div><div class="nav"><button id="restart">範囲選択へ</button><button id="again">このセットをもう一度</button><button class="primary" id="advance">次の5問へ →</button><button id="retry">間違い・未回答だけやり直す</button></div><h2 id="reviewTitle"></h2><div id="review"></div></section>
+<section class="panel" id="setup"><h2>出題範囲を選ぶ</h2><div class="toolbar"><label for="scope">範囲</label><select id="scope"><option value="all">本番範囲すべて（30問）</option><option value="0">10/16 循環障害（10問）</option><option value="1">10/23 代謝障害（10問）</option><option value="2">10/30 感染症（10問）</option></select><label for="batch">出題数</label><select id="batch"><option value="5">5問ずつ</option><option value="all">まとめて</option></select><label for="set" id="setLabel">セット</label><select id="set"></select><label><input type="checkbox" id="random"> セット内の問題順だけシャッフル</label><button class="primary" id="start">スタート</button></div><p class="muted">選択肢の a〜d は固定。選ぶとすぐに正誤と正解を表示。正解するまで同じ問題を選び直せます。</p></section>
+<section class="panel" id="play" hidden><div class="meta"><span class="pill" id="source"></span><span id="setBadge" class="muted"></span><span id="count" class="muted"></span></div><progress class="bar" id="bar" value="0"></progress><h2 id="prompt" tabindex="-1"></h2><div id="options" role="group" aria-labelledby="prompt"></div><div class="feedback" id="feedback" role="status" aria-live="polite"></div><div class="nav"><button id="prev">← 前の問題</button><button class="primary" id="next">次の問題 →</button></div><div class="grid" id="grid" aria-label="問題番号"></div><footer class="nav"><button id="home">範囲選択へ戻る</button></footer></section>
+<section class="panel" id="result" hidden><h2 id="resultTitle">結果</h2><div id="score" class="score"></div><div class="nav"><button id="restart">範囲選択へ</button><button id="again">このセットをもう一度</button><button class="primary" id="advance">次の5問へ →</button><button id="retry">間違えた問題だけやり直す</button></div><h2 id="reviewTitle"></h2><div id="review"></div></section>
 <p class="muted">出典：POLITE 病理学小テスト（10/16・10/23・10/30）。正答は採点画面に準拠。本番の問題数や配点を再現したものではありません。</p>
 </main><script>
 "use strict";
 const bank=[{"id":"0-1","group":0,"n":1,"q":"うっ血が長引いて酸化ヘモグロビンが減少し、皮膚、口唇などが青紫色を呈する変化はどれか","opts":["うっ血性硬化","うっ血性水腫","チアノーゼ","バチ型の指"],"a":2},{"id":"0-2","group":0,"n":2,"q":"血管内に入ってきた空気や脂肪が血管壁を閉塞した状態をなんとよぶか","opts":["塞栓症","血栓症","出血","梗塞"],"a":0},{"id":"0-3","group":0,"n":3,"q":"局所の臓器・組織中を循環する血液量が異常に減少した状態はどれか","opts":["うっ血","充血","喀血","虚血"],"a":3},{"id":"0-4","group":0,"n":4,"q":"静脈血の流れが妨げられ、組織や臓器の静脈血流が異常に増加した状態をどれか","opts":["喀血","虚血","うっ血","充血"],"a":2},{"id":"0-5","group":0,"n":5,"q":"小動脈が塞栓で閉鎖され、栄養や酸素の供給を受けていた組織が壊死する状態はどれか","opts":["梗塞","塞栓症","血栓症","出血"],"a":0},{"id":"0-6","group":0,"n":6,"q":"生体が障害やストレスを受けて急激に全身性に末梢循環障害を起こした状態はどれか","opts":["梗塞","DIC","ショック","アタック"],"a":2},{"id":"0-7","group":0,"n":7,"q":"本来の血流路に狭窄･閉塞が生じ血液が吻合枝を通るようになることをなんとよぶか","opts":["側副循環","肺循環","大循環","リンパ循環"],"a":0},{"id":"0-8","group":0,"n":8,"q":"食道や胃から出血した血液が口から出る場合ことをなんというか","opts":["血尿","喀血","下血","吐血"],"a":3},{"id":"0-9","group":0,"n":9,"q":"血液の全成分（特に赤血球）が心臓あるいは血管外に流出すること","opts":["充血","喀血","吐血","出血"],"a":3},{"id":"0-10","group":0,"n":10,"q":"局所に動脈血が増加した状態はどれか","opts":["充血","虚血","喀血","うっ血"],"a":0},{"id":"1-1","group":1,"n":1,"q":"あらかじめ細胞にプログラムされた細胞死はどれか","opts":["壊死","アポトーシス","変性","萎縮"],"a":1},{"id":"1-2","group":1,"n":2,"q":"代謝できなくなった生理的物質が蓄積するのはどれか","opts":["萎縮","変性","壊死","アポトーシス"],"a":1},{"id":"1-3","group":1,"n":3,"q":"加齢によって起こる萎縮はどれか","opts":["圧迫萎縮","生理的萎縮","過形成","悪液質萎縮"],"a":1},{"id":"1-4","group":1,"n":4,"q":"生活習慣病としての糖尿病はどれか","opts":["グリコーゲン病","２型糖尿病","１型糖尿病","糖原病"],"a":1},{"id":"1-5","group":1,"n":5,"q":"障害を受けた組織が局所の修復のために形成される幼弱な結合組織はどれか","opts":["膠原線維","再生","化生","肉芽組織"],"a":3},{"id":"1-6","group":1,"n":6,"q":"個々の細胞の容積が増した結果、組織や臓器全体の容積が増大することはどれか","opts":["増生","増殖","肥大","分化"],"a":2},{"id":"1-7","group":1,"n":7,"q":"褥瘡（じょくそう）はどの萎縮に属するか","opts":["圧迫萎縮","全身萎縮","生理的萎縮","廃用性萎縮"],"a":0},{"id":"1-8","group":1,"n":8,"q":"バセドウ病の原因はどれか","opts":["甲状腺機能亢進","副甲状腺機能低下","副腎皮質機能低下","甲状腺機能低下"],"a":0},{"id":"1-9","group":1,"n":9,"q":"分化（成熟）した細胞や組織が、ほかの型の分化した細胞や組織に変化する現象はどれか","opts":["化生","再生","増生","肉芽組織"],"a":0},{"id":"1-10","group":1,"n":10,"q":"細胞死が起こったり細胞容積が減少するのはどれか","opts":["退行性病変","進行性病変","アレルギー病変","免疫異常病変"],"a":0},{"id":"2-1","group":2,"n":1,"q":"空気中に飛び散った飛沫（飛沫核）を吸引することにより感染するのはどれか","opts":["飛沫感染","接触感染","経口感染","経気道感染"],"a":0},{"id":"2-2","group":2,"n":2,"q":"空港や港湾で感染症の有無を検査することを何というか","opts":["ワクチン","予防接種","免疫","検疫"],"a":3},{"id":"2-3","group":2,"n":3,"q":"菌体の外に放出される毒素をなんというか","opts":["内毒素","病原体","宿主","外毒素"],"a":3},{"id":"2-4","group":2,"n":4,"q":"皮膚、口腔、などに細菌が住みつき、宿主と共生状態を保っていることをなんというか","opts":["敗血症","特異的感染防御","常在細菌叢","不顕性感染"],"a":2},{"id":"2-5","group":2,"n":5,"q":"空気中に飛び散った病原体を吸い込むことにより感染するのはどれか","opts":["接触感染","飛沫感染","経口感染","経気道感染"],"a":3},{"id":"2-6","group":2,"n":6,"q":"病原微生物が感染して症状があらわれないことをなんというか","opts":["潜伏期","顕性感染","不顕性感染","日和見感染"],"a":2},{"id":"2-7","group":2,"n":7,"q":"血液中に大量の細菌が持続的に流入して起こる症状はどれか","opts":["経皮感染","敗血症","日和見感染","ショック"],"a":1},{"id":"2-8","group":2,"n":8,"q":"院内感染の原因菌はどれか","opts":["ウイルス","クラミジア","リケッチア","MRSA"],"a":3},{"id":"2-9","group":2,"n":9,"q":"感染を受けるヒトのことをなんというか","opts":["毒素","微生物","病原体","宿主"],"a":3},{"id":"2-10","group":2,"n":10,"q":"母親から胎児（新生児）への感染をなんというか","opts":["経皮感染","接触感染","垂直感染","水平感染"],"a":2}];
 const groups=["10/16 循環障害","10/23 代謝障害","10/30 感染症"], letters="abcd";
 const $=id=>document.getElementById(id);
-let items=[],answers={},idx=0,miss=[],sets=[],setIndex=0,reviewMode=false;
+let items=[],answers={},mistakes={},idx=0,miss=[],sets=[],setIndex=0,reviewMode=false;
 function selected(){return bank.filter(x=>$("scope").value==="all"||String(x.group)===$("scope").value);}
 function syncSets(){
  const pool=selected(), size=$("batch").value==="all"?pool.length:5;
@@ -24,46 +29,63 @@ function label(){return sets.length===1?"まとめて":"セット "+(setIndex+1)
 function loadSet(i){setIndex=i;reviewMode=false;begin(sets[i],$("random").checked);}
 
 function screen(id){for(const name of ["setup","play","result"])$(name).hidden=name!==id;window.scrollTo(0,0)}
-function begin(list,shuffle){items=[...list];if(shuffle)for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]];} answers={};idx=0;screen("play");render(true);}
+function begin(list,shuffle){items=[...list];if(shuffle)for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]];} answers={};mistakes={};idx=0;screen("play");render(true);}
 function button(str,action){let b=document.createElement("button");b.type="button";b.textContent=str;b.onclick=action;return b}
-function render(focus){const it=items[idx], n=items.length, answered=Object.keys(answers).length;
- $("source").textContent=groups[it.group]+"・元の問"+it.n; $("setBadge").textContent=label()+(reviewMode?"・復習":"");
- $("count").textContent=(idx+1)+" / "+n+" 問　回答済み "+answered+"問";
+function unlocked(i){return i===0 || items.slice(0,i).every(q=>q.id in answers);}
+function answer(it,i){
+ if(it.id in answers)return;
+ if(i===it.a)answers[it.id]=i;
+ else (mistakes[it.id] ||= []).push(i);
+ render(false);
+ if(it.id in answers)$("next").focus({preventScroll:true});
+ else $("options").children[Array.from($("options").children).findIndex(b=>!b.disabled)]?.focus({preventScroll:true});
+}
+function render(focus){
+ const it=items[idx],n=items.length,done=it.id in answers,wrong=mistakes[it.id]||[],answered=Object.keys(answers).length;
+ $("source").textContent=groups[it.group]+"・元の問"+it.n;
+ $("setBadge").textContent=label()+(reviewMode?"・復習":"");
+ $("count").textContent=(idx+1)+" / "+n+" 問　正解済み "+answered+"問";
  $("bar").max=n;$("bar").value=answered;
  $("prompt").textContent=it.q;
+ const correct=letters[it.a]+". "+it.opts[it.a];
+ $("feedback").className="feedback"+(!done&&wrong.length?" error":"");
+ $("feedback").textContent=done?"○ 正解！ "+correct:wrong.length?"× 不正解。正解は "+correct+"。正しい選択肢を選び直そう。":"";
  $("options").replaceChildren(...it.opts.map((o,i)=>{
-  const b=button("",()=>{answers[it.id]=i;render(false);$("options").children[i].focus()});
-  b.className="choice";b.setAttribute("aria-pressed",String(answers[it.id]===i));
+  const b=button("",()=>answer(it,i));
+  b.className="choice"+(done&&i===it.a?" correct":wrong.includes(i)?" wrong":"");
+  b.disabled=done||wrong.includes(i);
   const l=document.createElement("span");l.className="letter";l.textContent=letters[i]+".";
   b.append(l,document.createTextNode(o));return b;
  }));
  $("grid").replaceChildren(...items.map((entry,i)=>{
    const b=button(String(i+1),()=>jump(i));
-   if(entry.id in answers)b.classList.add("done");
+   b.disabled=!unlocked(i);if(entry.id in answers)b.classList.add("done");
    if(idx===i)b.setAttribute("aria-current","true");
-   b.setAttribute("aria-label","問題"+(i+1)+(entry.id in answers?"・回答済み":"・未回答"));
+   b.setAttribute("aria-label","問題"+(i+1)+(entry.id in answers?"・正解済み":b.disabled?"・未解放":"・未回答"));
    return b;
  }));
- $("prev").disabled=idx===0;$("next").disabled=idx===n-1;
+ $("prev").disabled=idx===0;$("next").disabled=!done;
+ $("next").textContent=idx===n-1?"結果を見る":"次の問題 →";
  if(focus)$("prompt").focus({preventScroll:true});
 }
-function jump(i){if(i>=0&&i<items.length){idx=i;render(true);window.scrollTo(0,0)}}
-function grade(){const unanswered=items.length-Object.keys(answers).length;
- if(unanswered&&!window.confirm("未回答が"+unanswered+"問あります。このまま採点しますか？"))return;
- miss=items.filter(x=>answers[x.id]!==x.a);
- $("score").textContent=(items.length-miss.length)+" / "+items.length+" 問正解";
- $("reviewTitle").textContent=miss.length?"間違い・未回答の復習":"全問正解！";
+function jump(i){if(i>=0&&i<items.length&&unlocked(i)){idx=i;render(true);window.scrollTo(0,0)}}
+function grade(){
+ if(items.some(x=>!(x.id in answers)))return;
+ miss=items.filter(x=>mistakes[x.id]?.length);
+ $("score").textContent="初回正解 "+(items.length-miss.length)+" / "+items.length+" 問";
+ $("reviewTitle").textContent=miss.length?"解き直した問題":"全問一発正解！";
  $("retry").hidden=!miss.length; $("advance").hidden=setIndex+1>=sets.length; $("resultTitle").textContent=label()+"の結果"+(reviewMode?"（復習）":"");
  $("review").replaceChildren(...miss.map(x=>{
  const d=document.createElement("article");d.className="bad";
- for(const t of [groups[x.group]+"・問"+x.n+"｜"+x.q,"あなたの回答： "+(x.id in answers?letters[answers[x.id]]+". "+x.opts[answers[x.id]]:"未回答"),"正解： "+letters[x.a]+". "+x.opts[x.a]]){const p=document.createElement("p");p.textContent=t;d.append(p)}return d;
+ for(const t of [groups[x.group]+"・問"+x.n+"｜"+x.q,"間違えた選択肢： "+mistakes[x.id].map(i=>letters[i]+". "+x.opts[i]).join("／"),"正解： "+letters[x.a]+". "+x.opts[x.a]]){const p=document.createElement("p");p.textContent=t;d.append(p)}return d;
  }));screen("result");
 }
 $("scope").onchange=syncSets;$("batch").onchange=syncSets;
 $("start").onclick=()=>loadSet(Number($("set").value));
 $("again").onclick=()=>loadSet(setIndex);$("advance").onclick=()=>loadSet(setIndex+1);
 syncSets();
-$("prev").onclick=()=>jump(idx-1);$("next").onclick=()=>jump(idx+1);$("grade").onclick=grade;
+$("prev").onclick=()=>jump(idx-1);
+$("next").onclick=()=>{if(!(items[idx].id in answers))return;if(idx===items.length-1)grade();else jump(idx+1)};
 $("retry").onclick=()=>{reviewMode=true;begin(miss,$("random").checked)};$("restart").onclick=()=>screen("setup");
-$("home").onclick=()=>{if(!Object.keys(answers).length||window.confirm("今の回答を破棄して範囲選択へ戻りますか？"))screen("setup")};
+$("home").onclick=()=>{if((!Object.keys(answers).length&&!Object.keys(mistakes).length)||window.confirm("今の回答を破棄して範囲選択へ戻りますか？"))screen("setup")};
 </script></body></html>
